@@ -17,6 +17,7 @@ Step 5: Get a simple 1-body gravitational slingshot of the craft around a planet
 .
 .
 .
+
 Step x: Somehow figure out what angle and speed needs to be given to the craft in order for it to get the slingshot affect from another body
 
 Step x+1: Somehow chain these slingshots together so that the craft can go from one body to another
