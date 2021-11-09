@@ -4,7 +4,7 @@ ULTIMATE GOAL: To compute when a interplanetary trip like the Voyager's mission,
 DONE - Step 1: Get the 4th order Runge-Kutta working for a simple system of the Earth orbiting the Earth around the Sun located at the origin of the system.
 
 <p align="center">
-<img width="611" alt="Screen Shot 2021-11-08 at 9 24 46 PM" src="https://user-images.githubusercontent.com/37377528/140850378-57d3f845-4e3f-4c3b-a878-a4192edb6ae3.png">
+<img width="611" alt="Screen Shot 2021-11-08 at 9 36 05 PM" src="https://user-images.githubusercontent.com/37377528/140851467-349368a9-3139-4202-94ee-2b76b87ea1d1.png">
 </p>
   
 Step 2: Get the output from the C++ program plotted in python more dynamically. i.e. can see objects moving over time instead of just seeing its overall end path that it took.
