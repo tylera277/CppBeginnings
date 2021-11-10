@@ -1,15 +1,19 @@
 
 ULTIMATE GOAL: To compute when a interplanetary trip like the Voyager's mission, can take place in the future.
 
-DONE - Step 1: Get the 4th order Runge-Kutta working for a simple system of the Earth orbiting the Earth around the Sun located at the origin of the system.
+DONE (11/8/2021)- Step 1: Get the 4th order Runge-Kutta working for a simple system of the Earth orbiting the Earth around the Sun located at the origin of the system.
 
 <p align="center">
 <img width="611" alt="Screen Shot 2021-11-08 at 9 36 05 PM" src="https://user-images.githubusercontent.com/37377528/140851467-349368a9-3139-4202-94ee-2b76b87ea1d1.png">
 </p>
   
-Step 2: Get the output from the C++ program plotted in python more dynamically. i.e. can see objects moving over time instead of just seeing its overall end path that it took.
+DONE (11/9/2021) - Step 2: Get the output from the C++ program plotted in python more dynamically. i.e. can see objects moving over time instead of just seeing its overall end path that it took.
 
-Step 3: Place more than one planet in the system orbiting the sun.
+DONE (11/9/2021) - Step 3: Place more than one planet in the system orbiting the sun.
+
+<p align="center">
+<img width="611" alt="Screen Shot 2021-11-09 at 8 45 42 PM" src="https://user-images.githubusercontent.com/37377528/141034925-bc7914aa-10ba-431a-89a3-6bc398f056d8.png">
+</p>
 
 Step 4: Calculate a mass of negligible amount, a craft, being shot from the earth at some angle with some speed and see its trajectory evolve over time.
 
