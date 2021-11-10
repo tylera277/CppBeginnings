@@ -2,38 +2,60 @@
 #include <fstream>
 
 #include "rkComponents.h"
+#include "initialConditions.h"
+#include "rungeKuttaMain.h"
 
 int main() {
 
 
+    InitConditions iC;
+    RungeKuttaHouse rk4;
+
+    double Planet1Conds[4];
+    double Planet2Conds[4];
+    double Planet3Conds[4];
+
+    iC.getInitialConditions("earth", Planet1Conds);
+    iC.getInitialConditions("jupiter", Planet2Conds);
+    iC.getInitialConditions("neptune", Planet3Conds);
+
     // Initial Conditions;
     // currently set for the Earths parameters
-    double x0 = 1.01e11;
-    double y0 = 1.08e11;
-    double vx0 = -22100;
-    double vy0 = 20380;
-    double t0 = 0;
-    double tEnd = 3.154e7;
-    double h = 1;
 
-    double x = x0;
-    double y = y0;
-    double vx = vx0;
-    double vy = vy0;
+    double t0 = 0;
+    double tEnd = (3.154e7)*200;
+
+    double xSun = 0;
+    double ySun = 0;
+
+    // Earth initial conditions
+    double x1 = Planet1Conds[0];
+    double y1 = Planet1Conds[1];
+    double vx1 = Planet1Conds[2];
+    double vy1 = Planet1Conds[3];
+
+    // Jupiter initial conditions
+    double x2 = Planet2Conds[0];
+    double y2 = Planet2Conds[1];
+    double vx2 = Planet2Conds[2];
+    double vy2 = Planet2Conds[3];
+
+    // Neptune initial conditions
+    double x3 = Planet3Conds[0];
+    double y3 = Planet3Conds[1];
+    double vx3 = Planet3Conds[2];
+    double vy3 = Planet3Conds[3];
+
     double t = t0;
 
     // Time step
     // Currently 1 day in seconds
-    double delT = 86400/24;
+    double delT = 86400;
 
+    double k[16];
 
-
-    double k1_x,k1_y,k1_vx,k1_vy;
-    double k2_x,k2_y,k2_vx,k2_vy;
-    double k3_x,k3_y,k3_vx,k3_vy;
-    double k4_x,k4_y,k4_vx,k4_vy;
-
-    compute c1;
+    double mSun = 1.989e30;
+    double mEarth = 5.972e24;
 
     //File which the results are being printed to.
     std::ofstream myfile;
@@ -43,35 +65,41 @@ int main() {
     // Main body of Runge-kutta4 steps
     while(t<tEnd){
 
-        k1_x = vx;
-        k1_y = vy;
-        k1_vx = c1.computeXAccel(x,y);
-        k1_vy = c1.computeYAccel(x,y);
+        // For the Earth orbiting the Sun
+        rk4.calcRK4(delT,x1,y1,xSun,ySun,vx1,vy1,mSun,k);
 
-        k2_x = vx + (delT/2)*k1_vx;
-        k2_y = vy + (delT/2)*k1_vy;
-        k2_vx = c1.computeXAccel((x+(delT/2)*k1_x), (y+(delT/2)*k1_y));
-        k2_vy = c1.computeYAccel((x+(delT/2)*k1_x), (y+(delT/2)*k1_y));
+        myfile << x1 << "," << y1 << ",";
 
-        k3_x = vx + (delT/2)*k2_vx;
-        k3_y = vy + (delT/2)*k2_vy;
-        k3_vx = c1.computeXAccel((x+(delT/2)*k2_x), (y+(delT/2)*k2_y));
-        k3_vy = c1.computeYAccel((x+(delT/2)*k2_x), (y+(delT/2)*k2_y));
-
-        k4_x = vx + delT*k3_vx;
-        k4_y = vy + delT*k3_vy;
-        k4_vx = c1.computeXAccel((x+delT*k3_x), (y+delT*k3_y));
-        k4_vy = c1.computeYAccel((x+delT*k3_x), (y+delT*k3_y));
-
-        myfile << x << "," << y <<"\n";
+        x1 += (delT/6) * (k[0]+ 2*k[4]+ 2*k[8]+ k[12]);
+        y1 += (delT/6) * (k[1]+ 2*k[5]+ 2*k[9]+ k[13]);
+        vx1 += (delT/6) * (k[2]+ 2*k[6]+ 2*k[10]+ k[14]);
+        vy1 += (delT/6) * (k[3]+ 2*k[7]+ 2*k[11]+ k[15]);
 
 
 
-        x += (delT/6) * (k1_x+2*k2_x+2*k3_x+k4_x);
-        y += (delT/6) * (k1_y+2*k2_y+2*k3_y+k4_y);
-        vx += (delT/6) * (k1_vx+2*k2_vx+2*k3_vx+k4_vx);
-        vy += (delT/6) * (k1_vy+2*k2_vy+2*k3_vy+k4_vy);
+        // For Jupiter orbiting the Sun
+        rk4.calcRK4(delT,x2,y2,xSun,ySun,vx2,vy2,mSun,k);
 
+        myfile << x2 << "," << y2 << ",";
+
+        x2 += (delT/6) * (k[0]+ 2*k[4]+ 2*k[8]+ k[12]);
+        y2 += (delT/6) * (k[1]+ 2*k[5]+ 2*k[9]+ k[13]);
+        vx2 += (delT/6) * (k[2]+ 2*k[6]+ 2*k[10]+ k[14]);
+        vy2 += (delT/6) * (k[3]+ 2*k[7]+ 2*k[11]+ k[15]);
+
+
+
+        // For Neptune orbiting the Sun
+        rk4.calcRK4(delT,x3,y3,xSun,ySun,vx3,vy3,mSun,k);
+
+        myfile << x3 << "," << y3 << "\n";
+
+        x3 += (delT/6) * (k[0]+ 2*k[4]+ 2*k[8]+ k[12]);
+        y3 += (delT/6) * (k[1]+ 2*k[5]+ 2*k[9]+ k[13]);
+        vx3 += (delT/6) * (k[2]+ 2*k[6]+ 2*k[10]+ k[14]);
+        vy3 += (delT/6) * (k[3]+ 2*k[7]+ 2*k[11]+ k[15]);
+
+        // Increase time by one time step
         t += delT;
     }
     myfile.close();
