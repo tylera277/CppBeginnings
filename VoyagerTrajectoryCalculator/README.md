@@ -1,6 +1,10 @@
 
 ULTIMATE GOAL: To compute when a interplanetary trip like the Voyager's mission, can take place in the future.
 
+
+Program which computes the trajectory of a planet in C++ then outputs that into an intermediate csv file to then be taken in
+by a python program to be plotted in matplotlib.
+
 DONE (11/8/2021)- Step 1: Get the 4th order Runge-Kutta working for a simple system of the Earth orbiting the Earth around the Sun located at the origin of the system.
 
 <p align="center">
@@ -20,12 +24,14 @@ DONE (11/10/2021) - Step 4: Calculate a mass of negligible amount, a craft, bein
 DONE (11/10/2021) - Step 5: Get a simple 1-body gravitational slingshot of the craft around a planetary body other than its starting point of the Earth.
 
 - Demonstration slingshot of a craft around a body at mars position with jupiters mass. Number at bottom of chart is resultant velocity.
+- Red is Mars with Jupiter's mass, black is the craft, and blue is the Earth
 <p align="center">
-<img width="546" alt="slingPart1" src="https://user-images.githubusercontent.com/37377528/141145447-78a16c2d-b281-4bdd-9181-52d3d4ac6cbd.png">
+<img width="546" alt="slingPart1" src="https://user-images.githubusercontent.com/37377528/141162141-ca781094-42e2-4cd8-8043-613dd99d7b9b.png">
 </p>
 
 <p align="center">
-<img width="546" alt="slingPart2" src="https://user-images.githubusercontent.com/37377528/141145492-8393172b-f092-4012-bdce-0fa4d43c74f5.png">
+<img width="546" alt="slingPart2" src="https://user-images.githubusercontent.com/37377528/141162115-3e84e8d1-5e3b-459e-ad13-2ee85863dde9.png">
+
 </p>
 
 
@@ -39,5 +45,3 @@ Step x+1: Somehow chain these slingshots together so that the craft can go from 
 
 Step x+2:...
 
-Program which computes the trajectory of a planet in C++ then outputs that into an intermediate csv file to then be taken in
-by a python program to be plotted in matplotlib.
