@@ -15,9 +15,20 @@ DONE (11/9/2021) - Step 3: Place more than one planet in the system orbiting the
 <img width="611" alt="Screen Shot 2021-11-09 at 8 45 42 PM" src="https://user-images.githubusercontent.com/37377528/141034925-bc7914aa-10ba-431a-89a3-6bc398f056d8.png">
 </p>
 
-Step 4: Calculate a mass of negligible amount, a craft, being shot from the earth at some angle with some speed and see its trajectory evolve over time.
+DONE (11/10/2021) - Step 4: Calculate a mass of negligible amount, a craft, being shot from the earth at some angle with some speed and see its trajectory evolve over time.
 
-Step 5: Get a simple 1-body gravitational slingshot of the craft around a planetary body other than its starting point of the Earth.
+DONE (11/10/2021) - Step 5: Get a simple 1-body gravitational slingshot of the craft around a planetary body other than its starting point of the Earth.
+
+- Demonstration slingshot of a craft around a body at mars position with jupiters mass. Number at bottom of chart is resultant velocity.
+<p align="center">
+<img width="546" alt="slingPart1" src="https://user-images.githubusercontent.com/37377528/141145447-78a16c2d-b281-4bdd-9181-52d3d4ac6cbd.png">
+</p>
+
+<p align="center">
+<img width="546" alt="slingPart2" src="https://user-images.githubusercontent.com/37377528/141145492-8393172b-f092-4012-bdce-0fa4d43c74f5.png">
+</p>
+
+
 .
 .
 .
