@@ -35,13 +35,12 @@ DONE (11/10/2021) - Step 5: Get a simple 1-body gravitational slingshot of the c
 </p>
 
 
-.
-.
-.
+Step 6: Somehow figure out what angle and speed needs to be given to the craft in order for it to get the slingshot affect from another body
+  --> I have a program that I can easily scale to many bodies in orbit of the sun. I now need to determine how to calculate what date and with what velocity to launch the craft with and towards, in order for the craft to reach another body for a slingshot.
 
-Step x: Somehow figure out what angle and speed needs to be given to the craft in order for it to get the slingshot affect from another body
 
-Step x+1: Somehow chain these slingshots together so that the craft can go from one body to another
+Step 7: Somehow chain these slingshots together so that the craft can go from one body to another
 
+Step x: Maybe update graphics 
 Step x+2:...
 
