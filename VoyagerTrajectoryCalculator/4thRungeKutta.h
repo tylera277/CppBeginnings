@@ -1,14 +1,13 @@
 //
-// Created by Tyler Allen on 11/9/21.
+// Created by Tyler Allen on 11/10/21.
 //
 
-class RungeKuttaHouse{
+#include <cmath>
+
+class RungeKutta{
 public:
 
-
     double G = 6.67e-11;
-
-
 
     double computeXAccel(double x1,double y1, double x2, double y2, double center_mass){
         double a_x = (G*center_mass*(x2-x1))/pow((pow((x2-x1),2)+pow((y2-y1),2)),1.5);
@@ -22,8 +21,10 @@ public:
         return a_y;
     }
 
-    void calcRK4(double delT, double x1, double y1, double x2, double y2, double vx, double vy, double center_mass,
-    double k[]){
+    void calcRK4(double delT, double x1, double y1,
+                 double x2, double y2, double vx, double vy,
+                 double center_mass,
+                 double k[]){
 
 
         double k1_x, k1_y, k1_vx, k1_vy;
@@ -72,4 +73,13 @@ public:
         k[15] = k4_vy;
 
     }
+
+
+
+
+
+
+
 };
+
+
