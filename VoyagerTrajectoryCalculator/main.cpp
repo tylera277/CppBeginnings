@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <cmath>
 
 #include "4thRungeKutta.h"
 #include "rungeKuttaFreeBody.h"
@@ -24,7 +25,7 @@ int main() {
     double mJupiter = 1.90e27;
 
     double t = 0;
-    double tEnd = (3.154e7)*2;
+    double tEnd = (3.154e7) * 2;
     double delT = 86400;
 
     double k[16];
@@ -47,114 +48,131 @@ int main() {
     double vx3overall = 2.32e3;
     double vy3overall = -1.22e4;
 
-
-    for (int xVel = -11000; xVel < 11000; xVel += 100) {
-        for (int yVel = -11000; yVel < 11000; yVel += 100) {
-
-            // Earth
-            double x1 = x1overall;
-            double y1 = y1overall;
-            double vx1 = vx1overall;
-            double vy1 = vy1overall;
-
-            // Mars
-            double x2 = x2overall;
-            double y2 = y2overall;
-            double vx2 = vx2overall;
-            double vy2 = vy2overall;
-
-            //Jupiter
-            double x3 = x3overall;
-            double y3 = y3overall;
-            double vx3 = vx3overall;
-            double vy3 = vy3overall;
+    // Using the fastest launch velocity ever achieved to make program
+    // a bit simpler; only varying the angle of launch.
+    double craftLaunchVelocity = 16000;
+    double radians;
 
 
-            double xCraft = x1overall;
-            double yCraft = y1overall;
+    // I know this loop is bad in c++, just testing something
+    for (int angle = 0; angle <= 3600; angle += 1) {
 
-            t = 0;
-            double count = 0;
-            double counter = 0;
-
-
-            //the Craft starts off with Earth's velocity
-            double vxCraft = vx1overall;
-            double vyCraft = vy1overall;
-            vxCraft += xVel;
-            vyCraft += yVel;
-
-            //std::cout << vxCraft << " " << vyCraft << "\n";
-            while (t < tEnd) {
+        // Increments the angle by 0.1 degrees
+        float angleReduced = float(angle)/10;
 
 
-                // For the Earth orbiting the Sun
-                rk4.calcRK4(delT, x1, y1, xSun, ySun, vx1, vy1, mSun, k);
+        // Earth
+        double x1 = x1overall;
+        double y1 = y1overall;
+        double vx1 = vx1overall;
+        double vy1 = vy1overall;
+
+        // Mars
+        double x2 = x2overall;
+        double y2 = y2overall;
+        double vx2 = vx2overall;
+        double vy2 = vy2overall;
+
+        //Jupiter
+        double x3 = x3overall;
+        double y3 = y3overall;
+        double vx3 = vx3overall;
+        double vy3 = vy3overall;
 
 
-                x1 += (delT / 6) * (k[0] + 2 * k[4] + 2 * k[8] + k[12]);
-                y1 += (delT / 6) * (k[1] + 2 * k[5] + 2 * k[9] + k[13]);
-                vx1 += (delT / 6) * (k[2] + 2 * k[6] + 2 * k[10] + k[14]);
-                vy1 += (delT / 6) * (k[3] + 2 * k[7] + 2 * k[11] + k[15]);
+        double xCraft = x1overall;
+        double yCraft = y1overall;
+
+        t = 0;
+        double count = 0;
+        double counter = 0;
+
+
+        //the Craft starts off with Earth's velocity
+        double vxCraft = vx1overall;
+        double vyCraft = vy1overall;
 
 
 
-                // For Mars orbiting the Sun
-                rk4.calcRK4(delT, x2, y2, xSun, ySun, vx2, vy2, mSun, k);
+        radians = (angleReduced * 3.14159) / 180;
+
+        double xVel = craftLaunchVelocity * sin(radians);
+        double yVel = craftLaunchVelocity * cos(radians);
+        vxCraft += xVel;
+        vyCraft += yVel;
+
+        //std::cout << vxCraft << " " << vyCraft << "\n";
+        while (t < tEnd) {
 
 
-                x2 += (delT / 6) * (k[0] + 2 * k[4] + 2 * k[8] + k[12]);
-                y2 += (delT / 6) * (k[1] + 2 * k[5] + 2 * k[9] + k[13]);
-                vx2 += (delT / 6) * (k[2] + 2 * k[6] + 2 * k[10] + k[14]);
-                vy2 += (delT / 6) * (k[3] + 2 * k[7] + 2 * k[11] + k[15]);
-
-                // For Jupiter orbiting the Sun
-                rk4.calcRK4(delT, x3, y3, xSun, ySun, vx3, vy3, mSun, k);
+            // For the Earth orbiting the Sun
+            rk4.calcRK4(delT, x1, y1, xSun, ySun, vx1, vy1, mSun, k);
 
 
-                x3 += (delT / 6) * (k[0] + 2 * k[4] + 2 * k[8] + k[12]);
-                y3 += (delT / 6) * (k[1] + 2 * k[5] + 2 * k[9] + k[13]);
-                vx3 += (delT / 6) * (k[2] + 2 * k[6] + 2 * k[10] + k[14]);
-                vy3 += (delT / 6) * (k[3] + 2 * k[7] + 2 * k[11] + k[15]);
+            x1 += (delT / 6) * (k[0] + 2 * k[4] + 2 * k[8] + k[12]);
+            y1 += (delT / 6) * (k[1] + 2 * k[5] + 2 * k[9] + k[13]);
+            vx1 += (delT / 6) * (k[2] + 2 * k[6] + 2 * k[10] + k[14]);
+            vy1 += (delT / 6) * (k[3] + 2 * k[7] + 2 * k[11] + k[15]);
 
 
-                // For a craft of negligible mass moving amongst these bodies
 
-                rk4fb.RK4freebody(delT, xCraft, yCraft, vxCraft, vyCraft, xSun, ySun, mSun,
-                                  x1, y1, mEarth,
-                                  x2, y2, mMars,
-                                  x3, y3, mJupiter, k);
+            // For Mars orbiting the Sun
+            rk4.calcRK4(delT, x2, y2, xSun, ySun, vx2, vy2, mSun, k);
 
 
-                xCraft += (delT / 6) * (k[0] + 2 * k[4] + 2 * k[8] + k[12]);
-                yCraft += (delT / 6) * (k[1] + 2 * k[5] + 2 * k[9] + k[13]);
-                vxCraft += (delT / 6) * (k[2] + 2 * k[6] + 2 * k[10] + k[14]);
-                vyCraft += (delT / 6) * (k[3] + 2 * k[7] + 2 * k[11] + k[15]);
+            x2 += (delT / 6) * (k[0] + 2 * k[4] + 2 * k[8] + k[12]);
+            y2 += (delT / 6) * (k[1] + 2 * k[5] + 2 * k[9] + k[13]);
+            vx2 += (delT / 6) * (k[2] + 2 * k[6] + 2 * k[10] + k[14]);
+            vy2 += (delT / 6) * (k[3] + 2 * k[7] + 2 * k[11] + k[15]);
 
-                // If craft went within S.O.I. of Mars
-                if ((xCraft > (x2 - 5e8)) && (xCraft < (x2 + 5e8))) {
-                    if ((yCraft > (y2 - 5e8)) && (yCraft < (y2 + 5e8))) {
+            // For Jupiter orbiting the Sun
+            rk4.calcRK4(delT, x3, y3, xSun, ySun, vx3, vy3, mSun, k);
 
-                        count += 1;
-                        }
-                    }
 
-                // If craft went within S.O.I. of Jupiter
-                if ((xCraft > (x3 - 1e9)) && (xCraft < (x3 + 1e9))) {
-                    if ((yCraft > (y3 - 1e9)) && (yCraft < (y3 + 5e9))) {
-                        counter += 1;
-                        //std::cout<<count<<" "<<counter <<"\n";
-                    }
+            x3 += (delT / 6) * (k[0] + 2 * k[4] + 2 * k[8] + k[12]);
+            y3 += (delT / 6) * (k[1] + 2 * k[5] + 2 * k[9] + k[13]);
+            vx3 += (delT / 6) * (k[2] + 2 * k[6] + 2 * k[10] + k[14]);
+            vy3 += (delT / 6) * (k[3] + 2 * k[7] + 2 * k[11] + k[15]);
+
+
+            // For a craft of negligible mass moving amongst these bodies
+
+            rk4fb.RK4freebody(delT, xCraft, yCraft, vxCraft, vyCraft, xSun, ySun, mSun,
+                              x1, y1, mEarth,
+                              x2, y2, mMars,
+                              x3, y3, mJupiter, k);
+
+
+            xCraft += (delT / 6) * (k[0] + 2 * k[4] + 2 * k[8] + k[12]);
+            yCraft += (delT / 6) * (k[1] + 2 * k[5] + 2 * k[9] + k[13]);
+            vxCraft += (delT / 6) * (k[2] + 2 * k[6] + 2 * k[10] + k[14]);
+            vyCraft += (delT / 6) * (k[3] + 2 * k[7] + 2 * k[11] + k[15]);
+
+            // If craft went within S.O.I. of Mars
+            if ((xCraft > (x2 - 5e10)) && (xCraft < (x2 + 5e10))) {
+                if ((yCraft > (y2 - 5e10)) && (yCraft < (y2 + 5e10))) {
+
+                    count += 1;
                 }
-                //this makes sure each planet is met
-                if((count>0)&&(counter>0)) {
+            }
 
-                        if (((vxCraft > 0) && (vx1 > 0)) || (((vxCraft < 0) && (vx1 < 0)))) {
-                        if (((vyCraft > 0) && (vy1 > 0)) || (((vyCraft < 0) && (vy1 < 0)))) {
+            // If craft went within S.O.I. of Jupiter
+            if ((xCraft > (x3 - 1e9)) && (xCraft < (x3 + 1e9))) {
+                if ((yCraft > (y3 - 1e9)) && (yCraft < (y3 + 5e9))) {
+                    counter += 1;
+                    //std::cout<<count<<" "<<counter <<"\n";
+                }
+            }
+            //this makes sure each planet is met
+            if ((counter > 0)&&(count>0)) {
+
+                if (((vxCraft > 0) && (vx1 > 0)) || (((vxCraft < 0) && (vx1 < 0)))) {
+                    if (((vyCraft > 0) && (vy1 > 0)) || (((vyCraft < 0) && (vy1 < 0)))) {
 
                         //std::cout << "days:"<<days << "\n";
                         std::cout << "vel:" << xVel << " " << yVel << "\n";
                         std::cout << "craftVel:" << vxCraft << " " << vyCraft << "\n";
+                        std::cout << "angle:" << angle<<"\n";
                         std::cout << "----------" << "\n";
                         /*
                         std::cout << x2 << " " << y2 << "\n";
@@ -166,122 +184,113 @@ int main() {
                         xVelCheck = xVel;
                         yVelCheck = yVel;
                         goto exitLoops;
-                        }
-                        }
                     }
-
-                // Increase time by one time step
-                t += delT;
+                }
             }
+
+            // Increase time by one time step
+            t += delT;
         }
     }
 
 
-    exitLoops:
+        exitLoops:
 
-    myfile.open ("../../outputIntersection.csv");
-
-
-    // Earth
-            double x1new = x1overall;
-            double y1new = y1overall;
-            double vx1new = vx1overall;
-            double vy1new = vy1overall;
-
-            // Mars
-            double x2new = x2overall;
-            double y2new = y2overall;
-            double vx2new = vx2overall;
-            double vy2new = vy2overall;
-
-            // jupiter
-            double x3new = x3overall;
-            double y3new = y3overall;
-            double vx3new = vx3overall;
-            double vy3new = vy3overall;
+        myfile.open("../../outputIntersection.csv");
 
 
+        // Earth
+        double x1new = x1overall;
+        double y1new = y1overall;
+        double vx1new = vx1overall;
+        double vy1new = vy1overall;
+
+        // Mars
+        double x2new = x2overall;
+        double y2new = y2overall;
+        double vx2new = vx2overall;
+        double vy2new = vy2overall;
+
+        // jupiter
+        double x3new = x3overall;
+        double y3new = y3overall;
+        double vx3new = vx3overall;
+        double vy3new = vy3overall;
 
 
+        double xCraft = x1overall;
+        double yCraft = y1overall;
+
+        t = 0;
+        //double vxCraft = 20000;
+        //double vyCraft = 20000;
+
+        //the Craft starts off with Earth's velocity
+        double vxCraft = vx1overall;
+        double vyCraft = vy1overall;
+        vxCraft += xVelCheck;
+        vyCraft += yVelCheck;
+
+        //std::cout << vxCraft << " " << vyCraft << "\n";
+        while (t < tEnd) {
 
 
-
-            double xCraft = x1overall;
-            double yCraft = y1overall;
-
-            t = 0;
-            //double vxCraft = 20000;
-            //double vyCraft = 20000;
-
-            //the Craft starts off with Earth's velocity
-            double vxCraft  = vx1overall;
-            double vyCraft = vy1overall;
-            vxCraft += xVelCheck;
-            vyCraft += yVelCheck;
-
-            //std::cout << vxCraft << " " << vyCraft << "\n";
-            while (t < tEnd) {
+            // For the Earth orbiting the Sun
+            rk4.calcRK4(delT, x1new, y1new, xSun, ySun, vx1new, vy1new, mSun, k);
 
 
-                // For the Earth orbiting the Sun
-                rk4.calcRK4(delT, x1new, y1new, xSun, ySun, vx1new, vy1new, mSun, k);
-
-
-                x1new += (delT / 6) * (k[0] + 2 * k[4] + 2 * k[8] + k[12]);
-                y1new += (delT / 6) * (k[1] + 2 * k[5] + 2 * k[9] + k[13]);
-                vx1new += (delT / 6) * (k[2] + 2 * k[6] + 2 * k[10] + k[14]);
-                vy1new += (delT / 6) * (k[3] + 2 * k[7] + 2 * k[11] + k[15]);
+            x1new += (delT / 6) * (k[0] + 2 * k[4] + 2 * k[8] + k[12]);
+            y1new += (delT / 6) * (k[1] + 2 * k[5] + 2 * k[9] + k[13]);
+            vx1new += (delT / 6) * (k[2] + 2 * k[6] + 2 * k[10] + k[14]);
+            vy1new += (delT / 6) * (k[3] + 2 * k[7] + 2 * k[11] + k[15]);
 
 
 
-                // For Mars orbiting the Sun
-                rk4.calcRK4(delT, x2new, y2new, xSun, ySun, vx2new, vy2new, mSun, k);
+            // For Mars orbiting the Sun
+            rk4.calcRK4(delT, x2new, y2new, xSun, ySun, vx2new, vy2new, mSun, k);
 
 
-                x2new += (delT / 6) * (k[0] + 2 * k[4] + 2 * k[8] + k[12]);
-                y2new += (delT / 6) * (k[1] + 2 * k[5] + 2 * k[9] + k[13]);
-                vx2new += (delT / 6) * (k[2] + 2 * k[6] + 2 * k[10] + k[14]);
-                vy2new += (delT / 6) * (k[3] + 2 * k[7] + 2 * k[11] + k[15]);
+            x2new += (delT / 6) * (k[0] + 2 * k[4] + 2 * k[8] + k[12]);
+            y2new += (delT / 6) * (k[1] + 2 * k[5] + 2 * k[9] + k[13]);
+            vx2new += (delT / 6) * (k[2] + 2 * k[6] + 2 * k[10] + k[14]);
+            vy2new += (delT / 6) * (k[3] + 2 * k[7] + 2 * k[11] + k[15]);
 
 
-                // For jupiter orbiting the Sun
-                rk4.calcRK4(delT, x3new, y3new, xSun, ySun, vx3new, vy3new, mSun, k);
+            // For jupiter orbiting the Sun
+            rk4.calcRK4(delT, x3new, y3new, xSun, ySun, vx3new, vy3new, mSun, k);
 
 
-                x3new += (delT / 6) * (k[0] + 2 * k[4] + 2 * k[8] + k[12]);
-                y3new += (delT / 6) * (k[1] + 2 * k[5] + 2 * k[9] + k[13]);
-                vx3new += (delT / 6) * (k[2] + 2 * k[6] + 2 * k[10] + k[14]);
-                vy3new += (delT / 6) * (k[3] + 2 * k[7] + 2 * k[11] + k[15]);
+            x3new += (delT / 6) * (k[0] + 2 * k[4] + 2 * k[8] + k[12]);
+            y3new += (delT / 6) * (k[1] + 2 * k[5] + 2 * k[9] + k[13]);
+            vx3new += (delT / 6) * (k[2] + 2 * k[6] + 2 * k[10] + k[14]);
+            vy3new += (delT / 6) * (k[3] + 2 * k[7] + 2 * k[11] + k[15]);
 
-                // For a craft of negligible mass moving amongst these bodies
+            // For a craft of negligible mass moving amongst these bodies
 
-                rk4fb.RK4freebody(delT,xCraft,yCraft,vxCraft,vyCraft,
-                                  xSun,ySun,mSun,x1new,y1new,mEarth,x2new,y2new,mMars,
-                                  x3new,y3new, mJupiter,k);
-
-
-                xCraft += (delT / 6) * (k[0] + 2 * k[4] + 2 * k[8] + k[12]);
-                yCraft += (delT / 6) * (k[1] + 2 * k[5] + 2 * k[9] + k[13]);
-                vxCraft += (delT / 6) * (k[2] + 2 * k[6] + 2 * k[10] + k[14]);
-                vyCraft += (delT / 6) * (k[3] + 2 * k[7] + 2 * k[11] + k[15]);
+            rk4fb.RK4freebody(delT, xCraft, yCraft, vxCraft, vyCraft,
+                              xSun, ySun, mSun, x1new, y1new, mEarth, x2new, y2new, mMars,
+                              x3new, y3new, mJupiter, k);
 
 
+            xCraft += (delT / 6) * (k[0] + 2 * k[4] + 2 * k[8] + k[12]);
+            yCraft += (delT / 6) * (k[1] + 2 * k[5] + 2 * k[9] + k[13]);
+            vxCraft += (delT / 6) * (k[2] + 2 * k[6] + 2 * k[10] + k[14]);
+            vyCraft += (delT / 6) * (k[3] + 2 * k[7] + 2 * k[11] + k[15]);
 
 
-
-                myfile << x1new << "," << y1new <<",";
-                myfile << x2new << "," << y2new <<",";
-                myfile << xCraft << "," << yCraft<<",";
-                myfile << x3new << "," << y3new <<",";
-                myfile << vxCraft << "," << vyCraft <<"\n";
+            myfile << x1new << "," << y1new << ",";
+            myfile << x2new << "," << y2new << ",";
+            myfile << xCraft << "," << yCraft << ",";
+            myfile << x3new << "," << y3new << ",";
+            myfile << vxCraft << "," << vyCraft << "\n";
 
 
 
-                // Increase time by one time step
-                t += delT;
-            }
+            // Increase time by one time step
+            t += delT;
+        }
 
-    myfile.close();
+        myfile.close();
 
 
 
