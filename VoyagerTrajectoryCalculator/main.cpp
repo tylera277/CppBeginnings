@@ -147,7 +147,7 @@ int main() {
                     }
                 }
                 //this makes sure each planet is met
-                if((count>0)) {
+                if((count>0)&&(counter>0)) {
 
                         if (((vxCraft > 0) && (vx1 > 0)) || (((vxCraft < 0) && (vx1 < 0)))) {
                         if (((vyCraft > 0) && (vy1 > 0)) || (((vyCraft < 0) && (vy1 < 0)))) {
