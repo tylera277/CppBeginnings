@@ -42,9 +42,9 @@ Step 6: Somehow figure out what angle and speed needs to be given to the craft i
 Step 7: Somehow chain these slingshots together so that the craft can go from one body to another.
 
 I can get the craft to hit Jupiter and slingshot to Saturn, but after that it loses velocity and doesn't proceed to Uranus.
+<p align="center">
 <img width="594" alt="Screen Shot 2021-11-17 at 3 45 17 PM" src="https://user-images.githubusercontent.com/37377528/142280117-2f293cad-fe84-478e-8df2-99f65ac59ff3.png">
-
-
+</p>
 
 Step x: Maybe update graphics 
 Step x+2:...
